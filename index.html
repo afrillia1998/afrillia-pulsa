@@ -1,0 +1,3007 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afrillia Pulsa - Bayar Tagihan & Isi Pulsa</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- QRCode.js -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #6C3CE1;
+            --primary-gradient: linear-gradient(135deg, #6C3CE1, #8B5CF6);
+            --secondary-color: #F43F5E;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --danger-color: #EF4444;
+            --dark-color: #0F172A;
+            --light-bg: #F8FAFC;
+            --shadow-sm: 0 4px 20px rgba(108, 60, 225, 0.15);
+            --shadow-lg: 0 20px 60px rgba(108, 60, 225, 0.25);
+            --border-radius: 20px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light-bg);
+            min-height: 100vh;
+            color: var(--dark-color);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5B2FD4;
+        }
+
+        /* Login Page */
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-gradient);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-page::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+            animation: floatBubble 20s infinite;
+        }
+
+        .login-page::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 50%;
+            bottom: -100px;
+            left: -100px;
+            animation: floatBubble 25s infinite reverse;
+        }
+
+        @keyframes floatBubble {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 30px) scale(1.1); }
+        }
+
+        .login-box {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 52px 44px;
+            box-shadow: var(--shadow-lg);
+            max-width: 440px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.8s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .login-box .logo {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .login-box .logo .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-gradient);
+            border-radius: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 16px;
+            box-shadow: 0 12px 30px rgba(108, 60, 225, 0.3);
+            transition: var(--transition);
+        }
+
+        .login-box .logo .logo-icon:hover {
+            transform: scale(1.05) rotate(-5deg);
+        }
+
+        .login-box .logo h2 {
+            font-weight: 800;
+            color: var(--dark-color);
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+        }
+
+        .login-box .logo h2 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-box .logo p {
+            color: #64748B;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .login-form label {
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .login-form .input-group {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid #E2E8F0;
+            transition: var(--transition);
+            background: white;
+        }
+
+        .login-form .input-group:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(108, 60, 225, 0.1);
+        }
+
+        .login-form .input-group-text {
+            background: transparent;
+            border: none;
+            padding: 14px 16px;
+            color: #94A3B8;
+            font-size: 1rem;
+        }
+
+        .login-form .form-control {
+            border: none;
+            padding: 14px 16px 14px 0;
+            font-size: 0.95rem;
+            background: transparent;
+        }
+
+        .login-form .form-control:focus {
+            box-shadow: none;
+            background: transparent;
+        }
+
+        .login-form .btn-login {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 16px;
+            padding: 16px;
+            font-weight: 700;
+            color: white;
+            width: 100%;
+            transition: var(--transition);
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-form .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .login-form .btn-login:hover::before {
+            left: 100%;
+        }
+
+        .login-form .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(108, 60, 225, 0.35);
+        }
+
+        .login-form .btn-login:disabled {
+            opacity: 0.7;
+            transform: none;
+        }
+
+        .login-error {
+            display: none;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            color: #DC2626;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-error.show {
+            display: flex;
+        }
+
+        .login-error i {
+            font-size: 1.1rem;
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #94A3B8;
+            font-size: 0.85rem;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
+        .navbar-custom .navbar-brand {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-custom .navbar-brand .brand-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--primary-gradient);
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .navbar-custom .navbar-brand span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .navbar-custom .nav-link {
+            color: #64748B !important;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 12px;
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .navbar-custom .nav-link:hover {
+            background: rgba(108, 60, 225, 0.08);
+            color: var(--primary-color) !important;
+        }
+
+        .navbar-custom .nav-link.active {
+            background: var(--primary-gradient);
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(108, 60, 225, 0.3);
+        }
+
+        .navbar-custom .nav-link i {
+            margin-right: 8px;
+        }
+
+        .navbar-custom .nav-link .badge-dot {
+            position: absolute;
+            top: 4px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-info .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(108, 60, 225, 0.3);
+        }
+
+        .user-info .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+
+        .user-info .btn-logout {
+            background: none;
+            border: none;
+            color: #94A3B8;
+            padding: 6px 12px;
+            border-radius: 10px;
+            transition: var(--transition);
+            font-size: 0.85rem;
+        }
+
+        .user-info .btn-logout:hover {
+            background: #F1F5F9;
+            color: var(--danger-color);
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: none;
+            background: #F1F5F9;
+            color: #64748B;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-icon:hover {
+            background: var(--primary-gradient);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 30px 0 60px 0;
+        }
+
+        .section-page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section-page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card-modern {
+            background: white;
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .card-modern:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(108, 60, 225, 0.12);
+        }
+
+        .card-modern .card-header {
+            background: white;
+            padding: 20px 24px;
+            border-bottom: 1px solid #F1F5F9;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
+        .card-modern .card-header i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+
+        /* Dashboard Stats */
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(108, 60, 225, 0.12);
+        }
+
+        .stat-card .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: white;
+        }
+
+        .stat-card .stat-icon.purple {
+            background: var(--primary-gradient);
+        }
+        .stat-card .stat-icon.pink {
+            background: linear-gradient(135deg, #EC4899, #F43F5E);
+        }
+        .stat-card .stat-icon.green {
+            background: linear-gradient(135deg, #10B981, #34D399);
+        }
+
+        .stat-card .stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--dark-color);
+            letter-spacing: -0.5px;
+        }
+
+        .stat-card .stat-label {
+            color: #94A3B8;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* Service Grid */
+        .service-grid .service-item {
+            background: white;
+            border-radius: 16px;
+            padding: 20px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-grid .service-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .service-grid .service-item:hover::after {
+            transform: scaleX(1);
+        }
+
+        .service-grid .service-item:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary-color);
+            box-shadow: 0 12px 30px rgba(108, 60, 225, 0.15);
+        }
+
+        .service-grid .service-item .service-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: white;
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+
+        .service-grid .service-item:hover .service-icon {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .service-grid .service-item .service-icon.purple { background: var(--primary-gradient); }
+        .service-grid .service-item .service-icon.blue { background: linear-gradient(135deg, #3B82F6, #60A5FA); }
+        .service-grid .service-item .service-icon.green { background: linear-gradient(135deg, #10B981, #34D399); }
+        .service-grid .service-item .service-icon.pink { background: linear-gradient(135deg, #EC4899, #F43F5E); }
+        .service-grid .service-item .service-icon.orange { background: linear-gradient(135deg, #F59E0B, #FBBF24); }
+        .service-grid .service-item .service-icon.teal { background: linear-gradient(135deg, #14B8A6, #5EEAD4); }
+
+        .service-grid .service-item .service-name {
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 0.85rem;
+        }
+
+        /* Form Styling */
+        .form-control-custom {
+            border-radius: 14px;
+            border: 2px solid #E2E8F0;
+            padding: 12px 16px;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            background: white;
+        }
+
+        .form-control-custom:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(108, 60, 225, 0.1);
+        }
+
+        .form-control-custom.is-invalid {
+            border-color: var(--danger-color);
+        }
+
+        .form-control-custom.is-invalid:focus {
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+        }
+
+        .form-select-custom {
+            border-radius: 14px;
+            border: 2px solid #E2E8F0;
+            padding: 12px 16px;
+            transition: var(--transition);
+            background: white;
+            cursor: pointer;
+        }
+
+        .form-select-custom:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(108, 60, 225, 0.1);
+        }
+
+        .btn-primary-custom {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 14px;
+            padding: 14px 28px;
+            font-weight: 700;
+            color: white;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-primary-custom:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(108, 60, 225, 0.3);
+            color: white;
+        }
+
+        .btn-primary-custom:disabled {
+            opacity: 0.6;
+            transform: none;
+        }
+
+        .btn-outline-custom {
+            border: 2px solid #E2E8F0;
+            border-radius: 14px;
+            padding: 12px 20px;
+            font-weight: 600;
+            color: var(--dark-color);
+            background: white;
+            transition: var(--transition);
+        }
+
+        .btn-outline-custom:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: rgba(108, 60, 225, 0.05);
+        }
+
+        .btn-outline-custom.active {
+            border-color: var(--primary-color);
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        /* Provider Grid */
+        .provider-grid .provider-item {
+            background: white;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid #E2E8F0;
+            transition: var(--transition);
+        }
+
+        .provider-grid .provider-item:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .provider-grid .provider-item.selected {
+            border-color: var(--primary-color);
+            background: rgba(108, 60, 225, 0.05);
+            box-shadow: 0 0 0 4px rgba(108, 60, 225, 0.1);
+        }
+
+        .provider-grid .provider-item .provider-logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .provider-grid .provider-item .provider-sub {
+            font-size: 0.7rem;
+            color: #94A3B8;
+            font-weight: 500;
+        }
+
+        /* Payment Methods */
+        .payment-method-item {
+            border: 2px solid #E2E8F0;
+            border-radius: 14px;
+            padding: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 10px;
+            background: white;
+        }
+
+        .payment-method-item:hover {
+            border-color: var(--primary-color);
+            transform: translateX(4px);
+        }
+
+        .payment-method-item.selected {
+            border-color: var(--primary-color);
+            background: rgba(108, 60, 225, 0.05);
+            box-shadow: 0 0 0 4px rgba(108, 60, 225, 0.1);
+        }
+
+        .payment-method-item .method-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-right: 12px;
+        }
+
+        /* Bill Result */
+        .bill-result {
+            background: #F8FAFC;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 2px solid #E2E8F0;
+        }
+
+        .bill-result .bill-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .bill-result .bill-item:last-child {
+            border-bottom: none;
+        }
+
+        .bill-result .bill-label {
+            color: #64748B;
+            font-weight: 500;
+        }
+
+        .bill-result .bill-value {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* Toast */
+        .toast-container-custom {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast-custom {
+            background: white;
+            padding: 16px 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideInRight 0.5s ease;
+            min-width: 320px;
+            border-left: 4px solid var(--primary-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .toast-custom.success { border-left-color: var(--success-color); }
+        .toast-custom.error { border-left-color: var(--danger-color); }
+        .toast-custom.info { border-left-color: var(--primary-color); }
+
+        .toast-custom .toast-icon {
+            font-size: 1.4rem;
+        }
+        .toast-custom.success .toast-icon { color: var(--success-color); }
+        .toast-custom.error .toast-icon { color: var(--danger-color); }
+        .toast-custom.info .toast-icon { color: var(--primary-color); }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Loading */
+        .spinner-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner-overlay.show {
+            display: flex;
+        }
+
+        .spinner-box {
+            background: white;
+            padding: 48px;
+            border-radius: 28px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .spinner-box .spinner {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 4px solid #E2E8F0;
+            border-top-color: var(--primary-color);
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .spinner-box p {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin: 0;
+        }
+
+        /* Modal */
+        .modal-content-custom {
+            border-radius: 24px;
+            border: none;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-content-custom .modal-header {
+            border-bottom: 2px solid #F1F5F9;
+            padding: 20px 24px;
+        }
+
+        .modal-content-custom .modal-footer {
+            border-top: 2px solid #F1F5F9;
+            padding: 16px 24px;
+        }
+
+        /* Receipt */
+        #receiptContent {
+            font-family: 'Inter', sans-serif;
+        }
+
+        #receiptContent .receipt-header {
+            text-align: center;
+            padding-bottom: 16px;
+            border-bottom: 2px dashed #E2E8F0;
+        }
+
+        #receiptContent .receipt-header h4 {
+            font-weight: 800;
+            color: var(--dark-color);
+        }
+
+        #receiptContent .receipt-header h4 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #receiptContent .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+
+        #receiptContent .receipt-total {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            text-align: center;
+            padding: 16px 0;
+        }
+
+        /* Transaction Table */
+        .transaction-table {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .transaction-table th {
+            background: #F8FAFC;
+            color: var(--dark-color);
+            font-weight: 700;
+            padding: 14px 16px;
+            border-bottom: 2px solid #E2E8F0;
+        }
+
+        .transaction-table td {
+            padding: 14px 16px;
+            vertical-align: middle;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .transaction-table tr:hover td {
+            background: #FAFBFC;
+        }
+
+        .status-badge {
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.success {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-badge.pending {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background: #0F172A;
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .navbar-custom {
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom-color: rgba(255,255,255,0.05);
+        }
+
+        body.dark-mode .navbar-custom .navbar-brand {
+            color: white;
+        }
+
+        body.dark-mode .navbar-custom .nav-link {
+            color: #94A3B8 !important;
+        }
+
+        body.dark-mode .navbar-custom .nav-link:hover {
+            background: rgba(255,255,255,0.05);
+            color: white !important;
+        }
+
+        body.dark-mode .navbar-custom .nav-link.active {
+            background: var(--primary-gradient);
+            color: white !important;
+        }
+
+        body.dark-mode .card-modern,
+        body.dark-mode .stat-card,
+        body.dark-mode .service-grid .service-item,
+        body.dark-mode .provider-grid .provider-item,
+        body.dark-mode .payment-method-item,
+        body.dark-mode .transaction-table {
+            background: #1E293B;
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .card-modern .card-header {
+            background: #1E293B;
+            border-bottom-color: #334155;
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .form-control-custom,
+        body.dark-mode .form-select-custom {
+            background: #1E293B;
+            border-color: #334155;
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .form-control-custom:focus {
+            border-color: var(--primary-color);
+        }
+
+        body.dark-mode .bill-result {
+            background: #1E293B;
+            border-color: #334155;
+        }
+
+        body.dark-mode .bill-result .bill-item {
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .bill-result .bill-label {
+            color: #94A3B8;
+        }
+
+        body.dark-mode .bill-result .bill-value {
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .toast-custom {
+            background: #1E293B;
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .spinner-box {
+            background: #1E293B;
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .modal-content {
+            background: #1E293B;
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .modal-header {
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .modal-footer {
+            border-top-color: #334155;
+        }
+
+        body.dark-mode .login-box {
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        body.dark-mode .login-box .logo h2 {
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .login-form label {
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .login-form .input-group {
+            background: #1E293B;
+            border-color: #334155;
+        }
+
+        body.dark-mode .login-form .input-group-text {
+            color: #94A3B8;
+        }
+
+        body.dark-mode .login-form .form-control {
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .login-error {
+            background: #332222;
+            border-color: #664444;
+            color: #F87171;
+        }
+
+        body.dark-mode .login-footer {
+            color: #64748B;
+        }
+
+        body.dark-mode .stat-card .stat-number {
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .stat-card .stat-label {
+            color: #94A3B8;
+        }
+
+        body.dark-mode .service-grid .service-item .service-name {
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .transaction-table th {
+            background: #1E293B;
+            color: #F1F5F9;
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .transaction-table td {
+            border-bottom-color: #334155;
+        }
+
+        body.dark-mode .transaction-table tr:hover td {
+            background: #263340;
+        }
+
+        body.dark-mode .btn-outline-custom {
+            border-color: #334155;
+            color: #F1F5F9;
+            background: transparent;
+        }
+
+        body.dark-mode .btn-outline-custom:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        body.dark-mode .user-info .user-name {
+            color: #F1F5F9;
+        }
+
+        body.dark-mode .user-info .btn-logout:hover {
+            background: #334155;
+        }
+
+        body.dark-mode .btn-icon {
+            background: #334155;
+            color: #94A3B8;
+        }
+
+        body.dark-mode .btn-icon:hover {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-box {
+                padding: 32px 24px;
+            }
+
+            .navbar-custom .navbar-brand {
+                font-size: 1.1rem;
+            }
+
+            .navbar-custom .navbar-brand .brand-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+            }
+
+            .navbar-custom .nav-link {
+                padding: 6px 14px;
+                font-size: 0.82rem;
+            }
+
+            .stat-card .stat-number {
+                font-size: 1.4rem;
+            }
+
+            .main-content {
+                padding: 16px 0 30px 0;
+            }
+
+            .toast-custom {
+                min-width: 280px;
+                font-size: 0.9rem;
+                padding: 12px 18px;
+            }
+
+            .user-info .user-name {
+                display: none;
+            }
+
+            .service-grid .service-item {
+                padding: 14px 10px;
+            }
+
+            .service-grid .service-item .service-icon {
+                width: 44px;
+                height: 44px;
+                font-size: 1.2rem;
+            }
+
+            .service-grid .service-item .service-name {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .login-box {
+                padding: 24px 16px;
+                border-radius: 24px;
+            }
+
+            .login-box .logo .logo-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+
+            .navbar-custom .navbar-brand {
+                font-size: 0.95rem;
+            }
+
+            .navbar-custom .nav-link {
+                padding: 4px 10px;
+                font-size: 0.75rem;
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+
+            .stat-card .stat-number {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Print */
+        @media print {
+            .navbar-custom, .no-print, .btn-primary-custom, .btn-secondary {
+                display: none !important;
+            }
+
+            .main-content {
+                padding: 0 !important;
+            }
+
+            .card-modern {
+                box-shadow: none !important;
+                border: 1px solid #E2E8F0 !important;
+            }
+
+            .modal {
+                position: static !important;
+                display: block !important;
+            }
+
+            .modal-dialog {
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .modal-backdrop {
+                display: none !important;
+            }
+        }
+
+        .app-container {
+            display: none;
+        }
+
+        .app-container.show {
+            display: block;
+        }
+
+        .login-page.hidden {
+            display: none;
+        }
+
+        /* Extra animations */
+        .pulse-dot {
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Container -->
+    <div class="toast-container-custom" id="toastContainer"></div>
+
+    <!-- Loading Overlay -->
+    <div class="spinner-overlay" id="loadingOverlay">
+        <div class="spinner-box">
+            <div class="spinner"></div>
+            <p id="loadingText">Memproses...</p>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div class="login-page" id="loginPage">
+        <div class="login-box">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h2>Afrillia <span>Pulsa</span></h2>
+                <p>Bayar Tagihan & Isi Pulsa dengan Mudah</p>
+            </div>
+            
+            <div class="login-error" id="loginError">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="loginErrorMessage">Username atau password salah!</span>
+            </div>
+
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="loginUsername" 
+                               placeholder="Masukkan username" required autocomplete="username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" id="loginPassword" 
+                               placeholder="Masukkan password" required autocomplete="current-password">
+                    </div>
+                </div>
+                <button type="submit" class="btn-login" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> Masuk
+                </button>
+                <div class="login-footer">
+                    <small>Demo: afril / afril123</small>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div class="app-container" id="appContainer">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <span class="brand-icon"><i class="fas fa-bolt"></i></span>
+                    <span>Afrillia</span>Pulsa
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-section="dashboard">
+                                <i class="fas fa-home"></i> Beranda
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-section="bill">
+                                <i class="fas fa-file-invoice"></i> Tagihan
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-section="spp">
+                                <i class="fas fa-graduation-cap"></i> SPP
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-section="topup">
+                                <i class="fas fa-mobile-alt"></i> Pulsa
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-section="history">
+                                <i class="fas fa-history"></i> Riwayat
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="user-info">
+                        <div class="avatar" id="userAvatar">A</div>
+                        <span class="user-name" id="userName">Afril</span>
+                        <button class="btn-logout" id="logoutBtn" title="Keluar">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                        <button class="btn-icon" id="darkModeToggle" title="Mode Gelap">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="container">
+                <!-- Dashboard Section -->
+                <div id="section-dashboard" class="section-page active">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="fw-bold"><i class="fas fa-home text-primary"></i> Beranda</h2>
+                        <span class="text-muted" id="greeting">Selamat datang!</span>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-4">
+                            <div class="stat-card">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="stat-label">Saldo Virtual</div>
+                                        <div class="stat-number" id="virtualBalance">Rp 5.000.000</div>
+                                    </div>
+                                    <div class="stat-icon purple">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="stat-label">Transaksi Hari Ini</div>
+                                        <div class="stat-number" id="todayTransactions">0</div>
+                                    </div>
+                                    <div class="stat-icon pink">
+                                        <i class="fas fa-receipt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="stat-label">Total Pengeluaran</div>
+                                        <div class="stat-number" id="totalSpending">Rp 0</div>
+                                    </div>
+                                    <div class="stat-icon green">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Services -->
+                    <h5 class="mb-3 fw-bold"><i class="fas fa-bolt text-primary"></i> Layanan Cepat</h5>
+                    <div class="row g-3 service-grid mb-4">
+                        <div class="col-4 col-md-2">
+                            <div class="service-item" onclick="navigateTo('bill'); document.getElementById('billCategory').value='pln'">
+                                <div class="service-icon purple"><i class="fas fa-bolt"></i></div>
+                                <div class="service-name">Listrik</div>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-2">
+                            <div class="service-item" onclick="navigateTo('bill'); document.getElementById('billCategory').value='pdam'">
+                                <div class="service-icon blue"><i class="fas fa-tint"></i></div>
+                                <div class="service-name">PDAM</div>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-2">
+                            <div class="service-item" onclick="navigateTo('bill'); document.getElementById('billCategory').value='internet'">
+                                <div class="service-icon green"><i class="fas fa-wifi"></i></div>
+                                <div class="service-name">Internet</div>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-2">
+                            <div class="service-item" onclick="navigateTo('bill'); document.getElementById('billCategory').value='seminar'">
+                                <div class="service-icon pink"><i class="fas fa-users"></i></div>
+                                <div class="service-name">Seminar</div>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-2">
+                            <div class="service-item" onclick="navigateTo('spp')">
+                                <div class="service-icon orange"><i class="fas fa-graduation-cap"></i></div>
+                                <div class="service-name">SPP</div>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-2">
+                            <div class="service-item" onclick="navigateTo('topup')">
+                                <div class="service-icon teal"><i class="fas fa-mobile-alt"></i></div>
+                                <div class="service-name">Pulsa</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Promo Banner -->
+                    <div class="card card-modern">
+                        <div class="card-body" style="background: var(--primary-gradient); border-radius: 20px; padding: 24px;">
+                            <div class="row align-items-center text-white">
+                                <div class="col-md-8">
+                                    <h5 class="fw-bold"><i class="fas fa-gift me-2"></i>Promo Spesial!</h5>
+                                    <p class="mb-0 opacity-90">Bayar tagihan minimal Rp 100.000 dapat cashback 5%! Kode: AFRILLIA5</p>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <i class="fas fa-tags" style="font-size: 3rem; opacity: 0.3;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bill Payment Section -->
+                <div id="section-bill" class="section-page">
+                    <h2 class="mb-4 fw-bold"><i class="fas fa-file-invoice text-primary"></i> Bayar Tagihan</h2>
+                    
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card card-modern">
+                                <div class="card-header">
+                                    <i class="fas fa-search"></i> Cek Tagihan
+                                </div>
+                                <div class="card-body">
+                                    <form id="billForm">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-semibold">Kategori Tagihan</label>
+                                            <select class="form-select form-select-custom" id="billCategory" required>
+                                                <option value="pln">Listrik (PLN)</option>
+                                                <option value="pdam">PDAM</option>
+                                                <option value="internet">Internet</option>
+                                                <option value="seminar">Seminar/Event</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-semibold">Nomor Pelanggan / ID</label>
+                                            <input type="text" class="form-control form-control-custom" id="billCustomerId" 
+                                                   placeholder="Masukkan nomor pelanggan..." required>
+                                            <small class="text-muted">Minimal 8-12 karakter angka</small>
+                                            <div class="invalid-feedback" id="billIdError">Silakan masukkan nomor pelanggan yang valid</div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary-custom w-100" id="checkBillBtn">
+                                            <i class="fas fa-search"></i> Cek Tagihan
+                                        </button>
+                                    </form>
+
+                                    <div id="billResult" style="display: none;" class="mt-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card card-modern">
+                                <div class="card-header">
+                                    <i class="fas fa-info-circle"></i> Informasi
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex align-items-start gap-3 mb-3">
+                                        <i class="fas fa-check-circle text-success mt-1"></i>
+                                        <div>
+                                            <strong>Cek tagihan</strong>
+                                            <p class="text-muted small mb-0">Sebelum membayar</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-start gap-3 mb-3">
+                                        <i class="fas fa-clock text-warning mt-1"></i>
+                                        <div>
+                                            <strong>Pembayaran 24/7</strong>
+                                            <p class="text-muted small mb-0">Dapat dilakukan kapan saja</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-start gap-3">
+                                        <i class="fas fa-shield-alt text-primary mt-1"></i>
+                                        <div>
+                                            <strong>Aman & Terjamin</strong>
+                                            <p class="text-muted small mb-0">Transaksi terenkripsi</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <h6 class="fw-bold">Metode Pembayaran:</h6>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <span class="badge bg-primary"><i class="fas fa-university"></i> VA</span>
+                                        <span class="badge bg-success"><i class="fas fa-qrcode"></i> QRIS</span>
+                                        <span class="badge bg-warning text-dark"><i class="fas fa-store"></i> Teller</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SPP Section -->
+                <div id="section-spp" class="section-page">
+                    <h2 class="mb-4 fw-bold"><i class="fas fa-graduation-cap text-primary"></i> Biaya Kuliah / SPP</h2>
+                    
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card card-modern">
+                                <div class="card-header">
+                                    <i class="fas fa-id-card"></i> Cek Tagihan Semester
+                                </div>
+                                <div class="card-body">
+                                    <form id="sppForm">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-semibold">NIM (Nomor Induk Mahasiswa)</label>
+                                            <input type="text" class="form-control form-control-custom" id="sppNim" 
+                                                   placeholder="Masukkan NIM 12 digit..." required>
+                                            <small class="text-muted">Format: 12 digit angka</small>
+                                            <div class="invalid-feedback" id="sppNimError">Masukkan NIM yang valid (12 digit angka)</div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary-custom w-100" id="checkSppBtn">
+                                            <i class="fas fa-search"></i> Lihat Tagihan Semester
+                                        </button>
+                                    </form>
+
+                                    <div id="sppResult" style="display: none;" class="mt-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card card-modern">
+                                <div class="card-header">
+                                    <i class="fas fa-info-circle"></i> Info SPP
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex align-items-start gap-3 mb-3">
+                                        <i class="fas fa-check-circle text-success mt-1"></i>
+                                        <div>
+                                            <strong>Bayar cicilan</strong>
+                                            <p class="text-muted small mb-0">Per semester</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-start gap-3 mb-3">
+                                        <i class="fas fa-hand-pointer text-primary mt-1"></i>
+                                        <div>
+                                            <strong>Pilih cicilan</strong>
+                                            <p class="text-muted small mb-0">Yang ingin dibayar</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-start gap-3">
+                                        <i class="fas fa-calculator text-warning mt-1"></i>
+                                        <div>
+                                            <strong>Total otomatis</strong>
+                                            <p class="text-muted small mb-0">Terhitung dari pilihan</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <h6 class="fw-bold">Layanan SPP:</h6>
+                                    <ul class="list-unstyled small">
+                                        <li><i class="fas fa-university text-primary me-2"></i>Universitas Indonesia</li>
+                                        <li><i class="fas fa-university text-primary me-2"></i>ITB</li>
+                                        <li><i class="fas fa-university text-primary me-2"></i>UGM</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top-Up Section -->
+                <div id="section-topup" class="section-page">
+                    <h2 class="mb-4 fw-bold"><i class="fas fa-mobile-alt text-primary"></i> Isi Pulsa & Paket Data</h2>
+                    
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="card card-modern">
+                                <div class="card-header">
+                                    <i class="fas fa-sim-card"></i> Pilih Provider
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3 provider-grid mb-4" id="providerGrid">
+                                        <div class="col-4 col-md-3">
+                                            <div class="provider-item" data-provider="telkomsel" onclick="selectProvider('telkomsel')">
+                                                <div class="provider-logo" style="color:#E60000;">TELKOMSEL</div>
+                                                <div class="provider-sub">TSEL</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 col-md-3">
+                                            <div class="provider-item" data-provider="xl" onclick="selectProvider('xl')">
+                                                <div class="provider-logo" style="color:#0068B3;">XL</div>
+                                                <div class="provider-sub">AXIATA</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 col-md-3">
+                                            <div class="provider-item" data-provider="indosat" onclick="selectProvider('indosat')">
+                                                <div class="provider-logo" style="color:#003DA5;">INDOSAT</div>
+                                                <div class="provider-sub">OOREDOO</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 col-md-3">
+                                            <div class="provider-item" data-provider="tri" onclick="selectProvider('tri')">
+                                                <div class="provider-logo" style="color:#E1000F;">Tri</div>
+                                                <div class="provider-sub">3</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 col-md-3">
+                                            <div class="provider-item" data-provider="smartfren" onclick="selectProvider('smartfren')">
+                                                <div class="provider-logo" style="color:#00B140;">SMARTFREN</div>
+                                                <div class="provider-sub">SMFR</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 col-md-3">
+                                            <div class="provider-item" data-provider="axis" onclick="selectProvider('axis')">
+                                                <div class="provider-logo" style="color:#FF6600;">AXIS</div>
+                                                <div class="provider-sub">AXS</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <form id="topupForm">
+                                        <input type="hidden" id="selectedProvider" value="">
+                                        <div class="mb-3">
+                                            <label class="form-label fw-semibold">Nomor HP</label>
+                                            <input type="text" class="form-control form-control-custom" id="topupPhone" 
+                                                   placeholder="08XXXXXXXXXX" required>
+                                            <small class="text-muted">10-13 digit, mulai dengan 08</small>
+                                            <div class="invalid-feedback" id="topupPhoneError">Masukkan nomor HP yang valid</div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-semibold">Nominal Pulsa</label>
+                                            <div class="row g-2">
+                                                <div class="col-4 col-md-2">
+                                                    <button type="button" class="btn btn-outline-custom w-100" onclick="setPulsaNominal(10000)">Rp 10K</button>
+                                                </div>
+                                                <div class="col-4 col-md-2">
+                                                    <button type="button" class="btn btn-outline-custom w-100" onclick="setPulsaNominal(25000)">Rp 25K</button>
+                                                </div>
+                                                <div class="col-4 col-md-2">
+                                                    <button type="button" class="btn btn-outline-custom w-100" onclick="setPulsaNominal(50000)">Rp 50K</button>
+                                                </div>
+                                                <div class="col-4 col-md-2">
+                                                    <button type="button" class="btn btn-outline-custom w-100" onclick="setPulsaNominal(100000)">Rp 100K</button>
+                                                </div>
+                                                <div class="col-4 col-md-2">
+                                                    <button type="button" class="btn btn-outline-custom w-100" onclick="setPulsaNominal(200000)">Rp 200K</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-semibold">Atau nominal lainnya</label>
+                                            <input type="number" class="form-control form-control-custom" id="topupCustomNominal" 
+                                                   placeholder="Masukkan nominal..." min="5000">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary-custom w-100" id="topupBtn">
+                                            <i class="fas fa-shopping-cart"></i> Beli Pulsa
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="card card-modern">
+                                <div class="card-header">
+                                    <i class="fas fa-info-circle"></i> Info Pulsa
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex align-items-start gap-3 mb-3">
+                                        <i class="fas fa-check-circle text-success mt-1"></i>
+                                        <div>
+                                            <strong>Pulsa langsung masuk</strong>
+                                            <p class="text-muted small mb-0">Proses instan</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-start gap-3 mb-3">
+                                        <i class="fas fa-clock text-primary mt-1"></i>
+                                        <div>
+                                            <strong>Transaksi 24 jam</strong>
+                                            <p class="text-muted small mb-0">Setiap saat</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-start gap-3">
+                                        <i class="fas fa-percent text-warning mt-1"></i>
+                                        <div>
+                                            <strong>Diskon member</strong>
+                                            <p class="text-muted small mb-0">Khusus pengguna setia</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div id="topupPreview" style="display: none;" class="mt-3">
+                                        <h6 class="fw-bold"><i class="fas fa-eye text-primary"></i> Preview</h6>
+                                        <div class="d-flex justify-content-between py-1">
+                                            <span class="text-muted">Provider:</span>
+                                            <span class="fw-semibold" id="previewProvider">-</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between py-1">
+                                            <span class="text-muted">Nomor:</span>
+                                            <span class="fw-semibold" id="previewPhone">-</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between py-1">
+                                            <span class="text-muted">Nominal:</span>
+                                            <span class="fw-semibold text-primary" id="previewNominal">-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Section -->
+                <div id="section-history" class="section-page">
+                    <h2 class="mb-4 fw-bold"><i class="fas fa-history text-primary"></i> Riwayat Transaksi</h2>
+                    
+                    <div class="card card-modern">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <i class="fas fa-list"></i> Semua Transaksi
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <button class="btn btn-outline-custom btn-sm" onclick="filterHistory('all')">
+                                        <i class="fas fa-list"></i> Semua
+                                    </button>
+                                    <button class="btn btn-outline-custom btn-sm" onclick="filterHistory('success')">
+                                        <i class="fas fa-check-circle text-success"></i> Sukses
+                                    </button>
+                                    <button class="btn btn-outline-custom btn-sm text-danger" onclick="clearHistory()">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table transaction-table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Jenis</th>
+                                            <th>Deskripsi</th>
+                                            <th>Jumlah</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="historyBody">
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted py-4">Belum ada transaksi</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div class="modal fade" id="paymentModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-credit-card text-primary"></i> Konfirmasi Pembayaran</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="paymentModalBody">
+                    <!-- Dynamic content -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary-custom" id="confirmPaymentBtn">
+                        <i class="fas fa-check"></i> Konfirmasi Bayar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div class="modal fade" id="receiptModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-receipt text-success"></i> Bukti Pembayaran</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="receiptBody">
+                    <!-- Dynamic receipt -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-primary-custom" onclick="printReceipt()">
+                        <i class="fas fa-print"></i> Cetak
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Main JavaScript -->
+    <script>
+        // ============================================
+        // DATA SIMULASI
+        // ============================================
+        const billData = {
+            pln: {
+                "123456789012": { name: "Afrillia", address: "Jl. Merdeka No. 123, Jakarta", amount: 245000, penalty: 0, period: "Januari 2025", dueDate: "2025-02-15" },
+                "987654321098": { name: "Siti Rahayu", address: "Jl. Sudirman No. 45, Bandung", amount: 180000, penalty: 5000, period: "Januari 2025", dueDate: "2025-02-10" },
+                "456789123456": { name: "Agus Wijaya", address: "Jl. Diponegoro No. 78, Surabaya", amount: 320000, penalty: 10000, period: "Januari 2025", dueDate: "2025-02-20" },
+                "789123456789": { name: "Dewi Lestari", address: "Jl. Gatot Subroto No. 56, Yogyakarta", amount: 210000, penalty: 0, period: "Januari 2025", dueDate: "2025-02-12" },
+                "321654987321": { name: "Rudi Hartono", address: "Jl. Ahmad Yani No. 90, Semarang", amount: 275000, penalty: 7500, period: "Januari 2025", dueDate: "2025-02-18" }
+            },
+            pdam: {
+                "112233445566": { name: "Afrillia", address: "Jl. Merdeka No. 123, Jakarta", amount: 85000, penalty: 0, period: "Januari 2025", dueDate: "2025-02-15" },
+                "665544332211": { name: "Siti Rahayu", address: "Jl. Sudirman No. 45, Bandung", amount: 120000, penalty: 2000, period: "Januari 2025", dueDate: "2025-02-10" },
+                "998877665544": { name: "Agus Wijaya", address: "Jl. Diponegoro No. 78, Surabaya", amount: 95000, penalty: 0, period: "Januari 2025", dueDate: "2025-02-20" }
+            },
+            internet: {
+                "554433221100": { name: "Budi Afrillia", address: "Jl. Merdeka No. 123, Jakarta", amount: 350000, penalty: 0, period: "Januari 2025", dueDate: "2025-02-25" },
+                "001122334455": { name: "Siti Rahayu", address: "Jl. Sudirman No. 45, Bandung", amount: 400000, penalty: 15000, period: "Januari 2025", dueDate: "2025-02-20" },
+                "667788990011": { name: "Agus Wijaya", address: "Jl. Diponegoro No. 78, Surabaya", amount: 275000, penalty: 0, period: "Januari 2025", dueDate: "2025-02-28" }
+            },
+            seminar: {
+                "SEM-2025-001": { name: "Tech Conference 2025", address: "Jakarta Convention Center", amount: 750000, penalty: 0, period: "15 Februari 2025", dueDate: "2025-02-10" },
+                "SEM-2025-002": { name: "Digital Marketing Summit", address: "Grand Hyatt Bali", amount: 500000, penalty: 50000, period: "20 Februari 2025", dueDate: "2025-02-15" },
+                "SEM-2025-003": { name: "AI & Data Science Workshop", address: "Online - Zoom", amount: 350000, penalty: 0, period: "25 Februari 2025", dueDate: "2025-02-20" }
+            },
+            spp: {
+                "221011450006": {
+                    name: "Afrillia",
+                    semesters: [
+                        { id: 1, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-1", amount: 2500000, status: "unpaid" },
+                        { id: 2, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-2", amount: 2500000, status: "unpaid" },
+                        { id: 3, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-3", amount: 2500000, status: "paid" },
+                        { id: 4, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-4", amount: 2500000, status: "unpaid" },
+                        { id: 5, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-5", amount: 2500000, status: "unpaid" },
+                        { id: 6, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-6", amount: 2500000, status: "paid" }
+                    ]
+                },
+                "202310002002": {
+                    name: "Siti Rahayu",
+                    semesters: [
+                        { id: 1, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-1", amount: 3000000, status: "unpaid" },
+                        { id: 2, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-2", amount: 3000000, status: "unpaid" },
+                        { id: 3, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-3", amount: 3000000, status: "unpaid" },
+                        { id: 4, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-4", amount: 3000000, status: "paid" },
+                        { id: 5, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-5", amount: 3000000, status: "unpaid" },
+                        { id: 6, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-6", amount: 3000000, status: "unpaid" },
+                        { id: 7, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-7", amount: 3000000, status: "unpaid" },
+                        { id: 8, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-8", amount: 3000000, status: "paid" }
+                    ]
+                },
+                "202310003003": {
+                    name: "Agus Wijaya",
+                    semesters: [
+                        { id: 1, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-1", amount: 2000000, status: "paid" },
+                        { id: 2, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-2", amount: 2000000, status: "paid" },
+                        { id: 3, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-3", amount: 2000000, status: "unpaid" },
+                        { id: 4, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-4", amount: 2000000, status: "unpaid" },
+                        { id: 5, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-5", amount: 2000000, status: "unpaid" },
+                        { id: 6, desc: "SPP Semester Ganjil 2025/2026 - Cicilan ke-6", amount: 2000000, status: "unpaid" }
+                    ]
+                }
+            }
+        };
+
+        // ============================================
+        // AUTHENTICATION
+        // ============================================
+        const validUsers = [
+            { username: 'afril', password: 'afril123', name: 'Afrilia' }
+        ];
+
+        let currentUser = null;
+
+        function login(username, password) {
+            const user = validUsers.find(u => u.username === username && u.password === password);
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('afrillia_user', JSON.stringify(user));
+                return true;
+            }
+            return false;
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('afrillia_user');
+            localStorage.removeItem('afrillia_state');
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('appContainer').classList.remove('show');
+        }
+
+        function checkAuth() {
+            const saved = localStorage.getItem('afrillia_user');
+            if (saved) {
+                try {
+                    const user = JSON.parse(saved);
+                    const valid = validUsers.find(u => u.username === user.username && u.password === user.password);
+                    if (valid) {
+                        currentUser = valid;
+                        document.getElementById('loginPage').classList.add('hidden');
+                        document.getElementById('appContainer').classList.add('show');
+                        document.getElementById('userName').textContent = user.name;
+                        document.getElementById('userAvatar').textContent = user.name.charAt(0).toUpperCase();
+                        
+                        // Set greeting
+                        const hour = new Date().getHours();
+                        let greeting = 'Selamat datang!';
+                        if (hour < 12) greeting = 'Selamat pagi! ☀️';
+                        else if (hour < 18) greeting = 'Selamat siang! 🌤️';
+                        else greeting = 'Selamat malam! 🌙';
+                        document.getElementById('greeting').textContent = greeting + ' ' + user.name;
+                        
+                        return true;
+                    }
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                }
+            }
+            return false;
+        }
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            
+            if (!username || !password) {
+                showLoginError('Username dan password harus diisi!');
+                return;
+            }
+            
+            const errorEl = document.getElementById('loginError');
+            errorEl.classList.remove('show');
+            
+            const btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+            
+            setTimeout(() => {
+                if (login(username, password)) {
+                    document.getElementById('loginPage').classList.add('hidden');
+                    document.getElementById('appContainer').classList.add('show');
+                    document.getElementById('userName').textContent = currentUser.name;
+                    document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+                    
+                    const hour = new Date().getHours();
+                    let greeting = 'Selamat datang!';
+                    if (hour < 12) greeting = 'Selamat pagi! ☀️';
+                    else if (hour < 18) greeting = 'Selamat siang! 🌤️';
+                    else greeting = 'Selamat malam! 🌙';
+                    document.getElementById('greeting').textContent = greeting + ' ' + currentUser.name;
+                    
+                    loadState();
+                    updateDashboard();
+                    updateHistory();
+                    
+                    showToast('Selamat datang, ' + currentUser.name + '!', 'success');
+                } else {
+                    showLoginError('Username atau password salah!');
+                }
+                
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk';
+            }, 1000);
+        });
+
+        function showLoginError(message) {
+            const errorEl = document.getElementById('loginError');
+            document.getElementById('loginErrorMessage').textContent = message;
+            errorEl.classList.add('show');
+        }
+
+        document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if (confirm('Apakah Anda yakin ingin keluar?')) {
+                logout();
+                showToast('Anda telah keluar', 'info');
+            }
+        });
+
+        // ============================================
+        // STATE MANAGEMENT
+        // ============================================
+        let appState = {
+            balance: 5000000,
+            transactions: [],
+            selectedProvider: '',
+            selectedPaymentMethod: '',
+            currentBill: null,
+            currentCategory: '',
+            selectedSPPItems: [],
+            filterType: 'all'
+        };
+
+        function loadState() {
+            try {
+                const saved = localStorage.getItem('afrillia_state');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    appState = { ...appState, ...parsed };
+                }
+            } catch (e) {
+                console.error('Error loading state:', e);
+            }
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem('afrillia_state', JSON.stringify(appState));
+            } catch (e) {
+                console.error('Error saving state:', e);
+            }
+        }
+
+        // ============================================
+        // TOAST NOTIFICATION
+        // ============================================
+        function showToast(message, type = 'info', duration = 4000) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast-custom ${type}`;
+            
+            const iconMap = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                info: 'fa-info-circle'
+            };
+            
+            toast.innerHTML = `
+                <i class="fas ${iconMap[type] || 'fa-info-circle'} toast-icon"></i>
+                <span>${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideInRight 0.5s ease reverse';
+                setTimeout(() => toast.remove(), 500);
+            }, duration);
+        }
+
+        // ============================================
+        // LOADING OVERLAY
+        // ============================================
+        function showLoading(text = 'Memproses...') {
+            document.getElementById('loadingText').textContent = text;
+            document.getElementById('loadingOverlay').classList.add('show');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('show');
+        }
+
+        // ============================================
+        // NAVIGATION
+        // ============================================
+        function navigateTo(section) {
+            document.querySelectorAll('.section-page').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            
+            const target = document.getElementById(`section-${section}`);
+            if (target) target.classList.add('active');
+            
+            const navLink = document.querySelector(`.nav-link[data-section="${section}"]`);
+            if (navLink) navLink.classList.add('active');
+        }
+
+        document.querySelectorAll('.nav-link[data-section]').forEach(link => {
+            link.addEventListener('click', function() {
+                navigateTo(this.dataset.section);
+            });
+        });
+
+        // ============================================
+        // DASHBOARD
+        // ============================================
+        function updateDashboard() {
+            const today = new Date().toDateString();
+            const todayTransactions = appState.transactions.filter(t => 
+                new Date(t.date).toDateString() === today
+            );
+            
+            document.getElementById('todayTransactions').textContent = todayTransactions.length;
+            document.getElementById('virtualBalance').textContent = `Rp ${formatNumber(appState.balance)}`;
+            
+            const totalSpending = appState.transactions.reduce((sum, t) => sum + t.amount, 0);
+            document.getElementById('totalSpending').textContent = `Rp ${formatNumber(totalSpending)}`;
+        }
+
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // ============================================
+        // BILL PAYMENT
+        // ============================================
+        document.getElementById('billForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            checkBill();
+        });
+
+        function checkBill() {
+            const category = document.getElementById('billCategory').value;
+            const customerId = document.getElementById('billCustomerId').value.trim();
+            
+            const isValid = /^[A-Za-z0-9]{8,12}$/.test(customerId);
+            if (!isValid) {
+                document.getElementById('billIdError').style.display = 'block';
+                return;
+            }
+            document.getElementById('billIdError').style.display = 'none';
+            
+            showLoading('Mengecek tagihan...');
+            
+            setTimeout(() => {
+                hideLoading();
+                
+                const data = billData[category];
+                if (!data || !data[customerId]) {
+                    showToast('Nomor pelanggan tidak ditemukan', 'error');
+                    return;
+                }
+                
+                const bill = data[customerId];
+                appState.currentBill = { ...bill, customerId, category };
+                
+                displayBillResult(bill, category, customerId);
+                showToast('Tagihan ditemukan!', 'success');
+            }, 1500);
+        }
+
+        function displayBillResult(bill, category, customerId) {
+            const container = document.getElementById('billResult');
+            const categoryNames = {
+                pln: 'Listrik (PLN)',
+                pdam: 'PDAM',
+                internet: 'Internet',
+                seminar: 'Seminar/Event'
+            };
+            
+            container.style.display = 'block';
+            container.innerHTML = `
+                <div class="bill-result">
+                    <h6 class="fw-bold"><i class="fas fa-receipt"></i> Detail Tagihan</h6>
+                    <div class="bill-item">
+                        <span class="bill-label">Kategori</span>
+                        <span class="bill-value">${categoryNames[category]}</span>
+                    </div>
+                    <div class="bill-item">
+                        <span class="bill-label">Nomor Pelanggan</span>
+                        <span class="bill-value">${customerId}</span>
+                    </div>
+                    <div class="bill-item">
+                        <span class="bill-label">Nama Pelanggan</span>
+                        <span class="bill-value">${bill.name}</span>
+                    </div>
+                    <div class="bill-item">
+                        <span class="bill-label">Alamat</span>
+                        <span class="bill-value">${bill.address}</span>
+                    </div>
+                    <div class="bill-item">
+                        <span class="bill-label">Periode</span>
+                        <span class="bill-value">${bill.period}</span>
+                    </div>
+                    <div class="bill-item">
+                        <span class="bill-label">Tagihan Pokok</span>
+                        <span class="bill-value">Rp ${formatNumber(bill.amount)}</span>
+                    </div>
+                    ${bill.penalty > 0 ? `
+                        <div class="bill-item">
+                            <span class="bill-label">Denda</span>
+                            <span class="bill-value" style="color: #EF4444;">Rp ${formatNumber(bill.penalty)}</span>
+                        </div>
+                    ` : ''}
+                    <div class="bill-item">
+                        <span class="bill-label">Total</span>
+                        <span class="bill-value" style="color: var(--primary-color); font-size: 1.2rem;">Rp ${formatNumber(bill.amount + bill.penalty)}</span>
+                    </div>
+                    <div class="bill-item">
+                        <span class="bill-label">Jatuh Tempo</span>
+                        <span class="bill-value">${formatDate(bill.dueDate)}</span>
+                    </div>
+                    <div class="bill-item">
+                        <span class="bill-label">Status</span>
+                        <span class="bill-value"><span class="badge bg-warning text-dark">Belum Bayar</span></span>
+                    </div>
+                    
+                    <hr>
+                    <h6 class="fw-bold"><i class="fas fa-credit-card"></i> Metode Pembayaran</h6>
+                    <div id="paymentMethods">
+                        <div class="payment-method-item" onclick="selectPaymentMethod('va')" data-method="va">
+                            <div class="d-flex align-items-center">
+                                <div class="method-icon bg-primary bg-opacity-10 text-primary">
+                                    <i class="fas fa-university"></i>
+                                </div>
+                                <div>
+                                    <strong>Virtual Account</strong>
+                                    <div class="text-muted small">Bayar via ATM/Mobile Banking</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="payment-method-item" onclick="selectPaymentMethod('qris')" data-method="qris">
+                            <div class="d-flex align-items-center">
+                                <div class="method-icon bg-success bg-opacity-10 text-success">
+                                    <i class="fas fa-qrcode"></i>
+                                </div>
+                                <div>
+                                    <strong>QRIS</strong>
+                                    <div class="text-muted small">Scan QR code dengan e-wallet</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="payment-method-item" onclick="selectPaymentMethod('teller')" data-method="teller">
+                            <div class="d-flex align-items-center">
+                                <div class="method-icon bg-warning bg-opacity-10 text-warning">
+                                    <i class="fas fa-store"></i>
+                                </div>
+                                <div>
+                                    <strong>Bayar di Teller/Kasir</strong>
+                                    <div class="text-muted small">Pembayaran langsung di kantor</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary-custom w-100 mt-3" onclick="openPaymentModal()" id="payBillBtn">
+                        <i class="fas fa-check"></i> Bayar Sekarang
+                    </button>
+                </div>
+            `;
+        }
+
+        function selectPaymentMethod(method) {
+            document.querySelectorAll('.payment-method-item').forEach(el => el.classList.remove('selected'));
+            document.querySelector(`.payment-method-item[data-method="${method}"]`).classList.add('selected');
+            appState.selectedPaymentMethod = method;
+        }
+
+        function openPaymentModal() {
+            if (!appState.selectedPaymentMethod) {
+                showToast('Silakan pilih metode pembayaran', 'error');
+                return;
+            }
+            
+            const bill = appState.currentBill;
+            if (!bill) {
+                showToast('Silakan cek tagihan terlebih dahulu', 'error');
+                return;
+            }
+            
+            const total = bill.amount + (bill.penalty || 0);
+            const methodNames = {
+                va: 'Virtual Account',
+                qris: 'QRIS',
+                teller: 'Teller/Kasir'
+            };
+            
+            const body = document.getElementById('paymentModalBody');
+            body.innerHTML = `
+                <div class="text-center mb-4">
+                    <div class="stat-icon purple mx-auto" style="width: 64px; height: 64px; font-size: 1.8rem;">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h5 class="mt-3 fw-bold">Konfirmasi Pembayaran</h5>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Tagihan</span>
+                    <span class="fw-semibold">${bill.name}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Total</span>
+                    <span class="fw-bold text-primary" style="font-size: 1.2rem;">Rp ${formatNumber(total)}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Metode</span>
+                    <span class="fw-semibold">${methodNames[appState.selectedPaymentMethod]}</span>
+                </div>
+                <hr>
+                <div id="paymentDetail">
+                    ${getPaymentDetailHTML(appState.selectedPaymentMethod, total)}
+                </div>
+            `;
+            
+            new bootstrap.Modal(document.getElementById('paymentModal')).show();
+        }
+
+        function getPaymentDetailHTML(method, total) {
+            const vaNumber = '8888' + Date.now().toString().slice(-8);
+            
+            if (method === 'va') {
+                return `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> Silakan transfer ke Virtual Account berikut:
+                    </div>
+                    <div class="text-center p-4 bg-light rounded-3">
+                        <div style="font-size: 1.8rem; font-weight: 800; letter-spacing: 2px; color: var(--dark-color);">${vaNumber}</div>
+                        <small class="text-muted">Bank BCA / BNI / Mandiri</small>
+                    </div>
+                    <div class="mt-3">
+                        <small class="text-muted">Instruksi:</small>
+                        <ul class="small">
+                            <li>Buka aplikasi mobile banking</li>
+                            <li>Pilih menu transfer ke Virtual Account</li>
+                            <li>Masukkan nomor VA di atas</li>
+                            <li>Nominal: Rp ${formatNumber(total)}</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (method === 'qris') {
+                return `
+                    <div class="text-center">
+                        <div id="qrcodeContainer" style="display: inline-block;"></div>
+                        <div class="mt-2">
+                            <span class="badge bg-danger" id="qrisTimer" style="font-size: 1rem; padding: 8px 16px;">5:00</span>
+                            <div class="text-muted small mt-1">Harap selesaikan pembayaran dalam 5 menit</div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-store"></i> Bayar di Teller/Kasir
+                    </div>
+                    <div class="text-center p-4 bg-light rounded-3">
+                        <div style="font-size: 1.4rem; font-weight: 700;">${vaNumber}</div>
+                        <small class="text-muted">Token: ${Math.random().toString(36).substring(2, 8).toUpperCase()}</small>
+                    </div>
+                    <div class="mt-3">
+                        <small class="text-muted">Alamat Kantor:</small>
+                        <ul class="small">
+                            <li>Jl. Sudirman No. 123, Jakarta Pusat</li>
+                            <li>Jl. Diponegoro No. 45, Bandung</li>
+                            <li>Jl. Ahmad Yani No. 78, Surabaya</li>
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        let qrisTimerInterval = null;
+        let qrisTimeLeft = 300;
+
+        document.getElementById('paymentModal').addEventListener('shown.bs.modal', function() {
+            if (appState.selectedPaymentMethod === 'qris') {
+                setTimeout(() => {
+                    const container = document.getElementById('qrcodeContainer');
+                    if (container && !container.hasChildNodes()) {
+                        try {
+                            new QRCode(container, {
+                                text: `afrillia://payment?amount=${appState.currentBill.amount + (appState.currentBill.penalty || 0)}&id=${Date.now()}`,
+                                width: 200,
+                                height: 200,
+                                colorDark: "#6C3CE1",
+                                colorLight: "#ffffff",
+                                correctLevel: QRCode.CorrectLevel.H
+                            });
+                        } catch(e) {
+                            container.innerHTML = `
+                                <div style="width:200px;height:200px;background:#E2E8F0;display:flex;align-items:center;justify-content:center;border-radius:16px;">
+                                    <span style="font-size:0.8rem; color: #94A3B8;">[QR Code Simulasi]</span>
+                                </div>
+                            `;
+                        }
+                        
+                        qrisTimeLeft = 300;
+                        if (qrisTimerInterval) clearInterval(qrisTimerInterval);
+                        qrisTimerInterval = setInterval(() => {
+                            qrisTimeLeft--;
+                            const minutes = Math.floor(qrisTimeLeft / 60);
+                            const seconds = qrisTimeLeft % 60;
+                            const timerEl = document.getElementById('qrisTimer');
+                            if (timerEl) {
+                                timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                                if (qrisTimeLeft < 60) {
+                                    timerEl.style.background = '#EF4444';
+                                }
+                            }
+                            
+                            if (qrisTimeLeft <= 0) {
+                                clearInterval(qrisTimerInterval);
+                                showToast('Waktu pembayaran QRIS habis', 'error');
+                                bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+                            }
+                        }, 1000);
+                    }
+                }, 300);
+            }
+        });
+
+        document.getElementById('paymentModal').addEventListener('hidden.bs.modal', function() {
+            if (qrisTimerInterval) {
+                clearInterval(qrisTimerInterval);
+                qrisTimerInterval = null;
+            }
+        });
+
+        document.getElementById('confirmPaymentBtn').addEventListener('click', function() {
+            if (!appState.currentBill) return;
+            
+            const bill = appState.currentBill;
+            const total = bill.amount + (bill.penalty || 0);
+            
+            if (appState.balance < total) {
+                showToast('Saldo tidak mencukupi!', 'error');
+                return;
+            }
+            
+            showLoading('Memproses pembayaran...');
+            
+            setTimeout(() => {
+                hideLoading();
+                
+                appState.balance -= total;
+                
+                const transaction = {
+                    id: Date.now(),
+                    date: new Date().toISOString(),
+                    type: 'bill',
+                    category: bill.category,
+                    description: `${bill.name} - ${bill.customerId}`,
+                    amount: total,
+                    status: 'success',
+                    paymentMethod: appState.selectedPaymentMethod,
+                    details: bill
+                };
+                
+                appState.transactions.unshift(transaction);
+                saveState();
+                updateDashboard();
+                updateHistory();
+                
+                showReceipt(transaction);
+                bootstrap.Modal.getInstance(document.getElementById('paymentModal')).hide();
+                showToast('Pembayaran berhasil!', 'success');
+                
+                appState.currentBill = null;
+                document.getElementById('billResult').style.display = 'none';
+            }, 2000);
+        });
+
+        // ============================================
+        // SPP PAYMENT
+        // ============================================
+        document.getElementById('sppForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            checkSPP();
+        });
+
+        function checkSPP() {
+            const nim = document.getElementById('sppNim').value.trim();
+            
+            if (!/^\d{12}$/.test(nim)) {
+                document.getElementById('sppNimError').style.display = 'block';
+                return;
+            }
+            document.getElementById('sppNimError').style.display = 'none';
+            
+            showLoading('Mencari data mahasiswa...');
+            
+            setTimeout(() => {
+                hideLoading();
+                
+                const data = billData.spp[nim];
+                if (!data) {
+                    showToast('NIM tidak ditemukan', 'error');
+                    return;
+                }
+                
+                displaySPPResult(data, nim);
+                showToast('Data mahasiswa ditemukan!', 'success');
+            }, 1500);
+        }
+
+        function displaySPPResult(data, nim) {
+            const container = document.getElementById('sppResult');
+            container.style.display = 'block';
+            
+            let itemsHTML = '';
+            appState.selectedSPPItems = [];
+            
+            data.semesters.forEach((item, index) => {
+                const isPaid = item.status === 'paid';
+                itemsHTML += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${item.desc}</td>
+                        <td>Rp ${formatNumber(item.amount)}</td>
+                        <td>
+                            <span class="status-badge ${isPaid ? 'success' : 'pending'}">
+                                ${isPaid ? 'Lunas' : 'Belum Lunas'}
+                            </span>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="spp-checkbox form-check-input" data-index="${index}" 
+                                   ${isPaid ? 'disabled' : ''}
+                                   onchange="updateSPPTotal()">
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            container.innerHTML = `
+                <div class="bill-result">
+                    <h6 class="fw-bold"><i class="fas fa-user-graduate"></i> Data Mahasiswa</h6>
+                    <div class="bill-item">
+                        <span class="bill-label">NIM</span>
+                        <span class="bill-value">${nim}</span>
+                    </div>
+                    <div class="bill-item">
+                        <span class="bill-label">Nama</span>
+                        <span class="bill-value">${data.name}</span>
+                    </div>
+                    <hr>
+                    <h6 class="fw-bold"><i class="fas fa-list"></i> Daftar Cicilan Semester</h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Deskripsi</th>
+                                    <th>Jumlah</th>
+                                    <th>Status</th>
+                                    <th>Pilih</th>
+                                </tr>
+                            </thead>
+                            <tbody>${itemsHTML}</tbody>
+                            <tfoot>
+                                <tr class="fw-bold">
+                                    <td colspan="4" class="text-end">Total Dipilih:</td>
+                                    <td><span class="text-primary" id="sppTotal">Rp 0</span></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <button class="btn btn-primary-custom w-100 mt-3" onclick="paySPP()" id="paySPPBtn">
+                        <i class="fas fa-check"></i> Bayar SPP Terpilih
+                    </button>
+                </div>
+            `;
+        }
+
+        function updateSPPTotal() {
+            const checkboxes = document.querySelectorAll('.spp-checkbox:checked');
+            let total = 0;
+            appState.selectedSPPItems = [];
+            
+            checkboxes.forEach(cb => {
+                const index = parseInt(cb.dataset.index);
+                const container = document.getElementById('sppResult');
+                const rows = container.querySelectorAll('tbody tr');
+                const amountText = rows[index].querySelectorAll('td')[2].textContent;
+                const amount = parseInt(amountText.replace(/[^0-9]/g, ''));
+                total += amount;
+                appState.selectedSPPItems.push(index);
+            });
+            
+            document.getElementById('sppTotal').textContent = `Rp ${formatNumber(total)}`;
+        }
+
+        function paySPP() {
+            if (appState.selectedSPPItems.length === 0) {
+                showToast('Pilih minimal satu cicilan', 'error');
+                return;
+            }
+            
+            const container = document.getElementById('sppResult');
+            const rows = container.querySelectorAll('tbody tr');
+            let total = 0;
+            const selectedItems = [];
+            
+            appState.selectedSPPItems.forEach(index => {
+                const amountText = rows[index].querySelectorAll('td')[2].textContent;
+                const amount = parseInt(amountText.replace(/[^0-9]/g, ''));
+                const desc = rows[index].querySelectorAll('td')[1].textContent;
+                total += amount;
+                selectedItems.push({ desc, amount });
+            });
+            
+            if (appState.balance < total) {
+                showToast('Saldo tidak mencukupi!', 'error');
+                return;
+            }
+            
+            showLoading('Memproses pembayaran SPP...');
+            
+            setTimeout(() => {
+                hideLoading();
+                
+                appState.balance -= total;
+                
+                const nim = document.getElementById('sppNim').value.trim();
+                const sppData = billData.spp[nim];
+                appState.selectedSPPItems.forEach(index => {
+                    sppData.semesters[index].status = 'paid';
+                });
+                
+                const transaction = {
+                    id: Date.now(),
+                    date: new Date().toISOString(),
+                    type: 'spp',
+                    description: `SPP - ${sppData.name} (${appState.selectedSPPItems.length} cicilan)`,
+                    amount: total,
+                    status: 'success',
+                    details: { nim, items: selectedItems }
+                };
+                
+                appState.transactions.unshift(transaction);
+                saveState();
+                updateDashboard();
+                updateHistory();
+                
+                showToast('Pembayaran SPP berhasil!', 'success');
+                
+                displaySPPResult(sppData, nim);
+            }, 2000);
+        }
+
+        // ============================================
+        // TOP-UP / PULSA
+        // ============================================
+        function selectProvider(provider) {
+            document.querySelectorAll('.provider-item').forEach(el => el.classList.remove('selected'));
+            document.querySelector(`.provider-item[data-provider="${provider}"]`).classList.add('selected');
+            appState.selectedProvider = provider;
+            document.getElementById('selectedProvider').value = provider;
+            updateTopupPreview();
+        }
+
+        function setPulsaNominal(nominal) {
+            document.getElementById('topupCustomNominal').value = nominal;
+            updateTopupPreview();
+        }
+
+        document.getElementById('topupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            processTopup();
+        });
+
+        function processTopup() {
+            const phone = document.getElementById('topupPhone').value.trim();
+            const customNominal = document.getElementById('topupCustomNominal').value;
+            
+            if (!/^08\d{8,11}$/.test(phone)) {
+                document.getElementById('topupPhoneError').style.display = 'block';
+                return;
+            }
+            document.getElementById('topupPhoneError').style.display = 'none';
+            
+            if (!appState.selectedProvider) {
+                showToast('Silakan pilih provider terlebih dahulu', 'error');
+                return;
+            }
+            
+            const nominal = parseInt(customNominal);
+            if (isNaN(nominal) || nominal < 5000) {
+                showToast('Masukkan nominal minimal Rp 5.000', 'error');
+                return;
+            }
+            
+            if (appState.balance < nominal) {
+                showToast('Saldo tidak mencukupi!', 'error');
+                return;
+            }
+            
+            showLoading('Memproses pembelian pulsa...');
+            
+            setTimeout(() => {
+                hideLoading();
+                
+                appState.balance -= nominal;
+                
+                const providerNames = {
+                    telkomsel: 'Telkomsel',
+                    xl: 'XL Axiata',
+                    indosat: 'Indosat Ooredoo',
+                    tri: 'Tri (3)',
+                    smartfren: 'Smartfren',
+                    axis: 'Axis'
+                };
+                
+                const transaction = {
+                    id: Date.now(),
+                    date: new Date().toISOString(),
+                    type: 'topup',
+                    description: `Pulsa ${providerNames[appState.selectedProvider]} - ${phone}`,
+                    amount: nominal,
+                    status: 'success',
+                    details: { provider: appState.selectedProvider, phone, nominal }
+                };
+                
+                appState.transactions.unshift(transaction);
+                saveState();
+                updateDashboard();
+                updateHistory();
+                
+                showToast(`Pembelian pulsa Rp ${formatNumber(nominal)} berhasil!`, 'success');
+                
+                document.getElementById('topupPhone').value = '';
+                document.getElementById('topupCustomNominal').value = '';
+                document.querySelectorAll('.provider-item').forEach(el => el.classList.remove('selected'));
+                appState.selectedProvider = '';
+                document.getElementById('topupPreview').style.display = 'none';
+            }, 2000);
+        }
+
+        function updateTopupPreview() {
+            const phone = document.getElementById('topupPhone').value.trim();
+            const nominal = document.getElementById('topupCustomNominal').value;
+            const provider = appState.selectedProvider;
+            
+            if (phone && provider && nominal) {
+                const providerNames = {
+                    telkomsel: 'Telkomsel',
+                    xl: 'XL Axiata',
+                    indosat: 'Indosat Ooredoo',
+                    tri: 'Tri (3)',
+                    smartfren: 'Smartfren',
+                    axis: 'Axis'
+                };
+                
+                document.getElementById('previewProvider').textContent = providerNames[provider] || '-';
+                document.getElementById('previewPhone').textContent = phone;
+                document.getElementById('previewNominal').textContent = `Rp ${formatNumber(parseInt(nominal) || 0)}`;
+                document.getElementById('topupPreview').style.display = 'block';
+            } else {
+                document.getElementById('topupPreview').style.display = 'none';
+            }
+        }
+
+        document.getElementById('topupPhone').addEventListener('input', function() {
+            const val = this.value.trim();
+            if (val && !/^08\d*$/.test(val)) {
+                document.getElementById('topupPhoneError').style.display = 'block';
+            } else {
+                document.getElementById('topupPhoneError').style.display = 'none';
+            }
+            updateTopupPreview();
+        });
+
+        document.getElementById('topupCustomNominal').addEventListener('input', updateTopupPreview);
+
+        // ============================================
+        // HISTORY
+        // ============================================
+        function updateHistory() {
+            const tbody = document.getElementById('historyBody');
+            const filtered = appState.filterType === 'all' 
+                ? appState.transactions 
+                : appState.transactions.filter(t => t.status === appState.filterType);
+            
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">Belum ada transaksi</td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = filtered.map(t => `
+                <tr>
+                    <td>${formatDate(t.date)}</td>
+                    <td>
+                        <span class="badge ${t.type === 'bill' ? 'bg-primary' : t.type === 'spp' ? 'bg-success' : 'bg-info'}">
+                            ${t.type === 'bill' ? 'Tagihan' : t.type === 'spp' ? 'SPP' : 'Pulsa'}
+                        </span>
+                    </td>
+                    <td>${t.description}</td>
+                    <td class="fw-semibold">Rp ${formatNumber(t.amount)}</td>
+                    <td>
+                        <span class="status-badge success">Berhasil</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" onclick="viewReceipt('${t.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterHistory(type) {
+            appState.filterType = type;
+            updateHistory();
+        }
+
+        function clearHistory() {
+            if (confirm('Hapus semua riwayat transaksi?')) {
+                appState.transactions = [];
+                saveState();
+                updateHistory();
+                updateDashboard();
+                showToast('Riwayat transaksi dihapus', 'info');
+            }
+        }
+
+        function viewReceipt(id) {
+            const transaction = appState.transactions.find(t => t.id == id);
+            if (!transaction) {
+                showToast('Transaksi tidak ditemukan', 'error');
+                return;
+            }
+            showReceipt(transaction);
+        }
+
+        // ============================================
+        // RECEIPT
+        // ============================================
+        function showReceipt(transaction) {
+            const body = document.getElementById('receiptBody');
+            body.innerHTML = `
+                <div id="receiptContent">
+                    <div class="receipt-header">
+                        <h4><span>Afrillia</span>Pulsa</h4>
+                        <div class="text-muted small">Bukti Pembayaran</div>
+                    </div>
+                    <div class="pt-3">
+                        <div class="receipt-item">
+                            <span class="text-muted">ID Transaksi</span>
+                            <span class="fw-semibold">#${transaction.id}</span>
+                        </div>
+                        <div class="receipt-item">
+                            <span class="text-muted">Tanggal</span>
+                            <span class="fw-semibold">${formatDate(transaction.date)}</span>
+                        </div>
+                        <div class="receipt-item">
+                            <span class="text-muted">Jenis</span>
+                            <span class="fw-semibold">${transaction.type === 'bill' ? 'Tagihan' : transaction.type === 'spp' ? 'SPP' : 'Pulsa'}</span>
+                        </div>
+                        <div class="receipt-item">
+                            <span class="text-muted">Deskripsi</span>
+                            <span class="fw-semibold">${transaction.description}</span>
+                        </div>
+                        <div class="receipt-item">
+                            <span class="text-muted">Metode</span>
+                            <span class="fw-semibold">${transaction.paymentMethod || 'N/A'}</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="receipt-total">
+                        Total Dibayar: Rp ${formatNumber(transaction.amount)}
+                    </div>
+                    <div class="text-center mt-2">
+                        <span class="badge bg-success" style="font-size: 0.9rem; padding: 6px 20px;">LUNAS</span>
+                    </div>
+                    <hr>
+                    <div class="text-center text-muted small">* Bukti ini adalah simulasi pembayaran</div>
+                </div>
+            `;
+            
+            new bootstrap.Modal(document.getElementById('receiptModal')).show();
+        }
+
+        function printReceipt() {
+            window.print();
+        }
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // ============================================
+        // DARK MODE
+        // ============================================
+        let isDarkMode = false;
+
+        document.getElementById('darkModeToggle').addEventListener('click', function() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            this.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('afrillia_darkmode', isDarkMode);
+        });
+
+        if (localStorage.getItem('afrillia_darkmode') === 'true') {
+            isDarkMode = true;
+            document.body.classList.add('dark-mode');
+            document.getElementById('darkModeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        if (!checkAuth()) {
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('appContainer').classList.remove('show');
+        } else {
+            loadState();
+            updateDashboard();
+            updateHistory();
+        }
+
+        console.log('✨ Afrillia Pulsa - Aplikasi Pembayaran Tagihan & Pulsa');
+        console.log('👤 Akun demo: afril / afril123');
+        console.log('💜 Dibuat dengan ❤️ untuk tugas frontend');
+    </script>
+</body>
+</html>
